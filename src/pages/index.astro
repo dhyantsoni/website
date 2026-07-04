@@ -1,0 +1,102 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PostRow from '../components/PostRow.astro';
+import { withBase, links } from '../lib/links';
+
+const isProd = import.meta.env.PROD;
+
+const projects = (await getCollection('projects')).sort((a, b) => +b.data.date - +a.data.date);
+const featured = projects.filter((p) => p.data.featured).slice(0, 3);
+const featuredList = featured.length ? featured : projects.slice(0, 3);
+
+const posts = (await getCollection('blog'))
+  .filter((p) => !(isProd && p.data.draft))
+  .sort((a, b) => +b.data.date - +a.data.date)
+  .slice(0, 4);
+---
+<Base title="Dhyan Soni">
+  <section class="hero rise">
+    <p class="mono kicker">student &amp; engineer</p>
+    <h1>I build things and write about how they work.</h1>
+    <p class="lede">
+      I'm Dhyan Soni — a student and software &amp; robotics engineer. I like turning hard problems
+      into things people can actually use. Here are my projects and a blog about what I'm learning
+      along the way. <!-- EDIT -->
+    </p>
+    <div class="cta mono">
+      <a href={withBase('/projects')}>→ projects</a>
+      <a href={withBase('/blog')}>→ blog</a>
+      <a href={links.github}>→ github</a>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="mono section-title">// featured projects</h2>
+    {
+      featuredList.length === 0 ? (
+        <p class="mono empty">// no projects yet — run `npm run new:project`</p>
+      ) : (
+        <div class="grid">
+          {featuredList.map((project) => <ProjectCard project={project} />)}
+        </div>
+      )
+    }
+  </section>
+
+  <section>
+    <h2 class="mono section-title">// latest writing</h2>
+    {
+      posts.length === 0 ? (
+        <p class="mono empty">// no posts yet — run `npm run new:post`</p>
+      ) : (
+        posts.map((post) => <PostRow post={post} />)
+      )
+    }
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding: 4rem 0 3rem;
+  }
+  .kicker {
+    color: var(--accent);
+    margin: 0 0 0.75rem;
+    letter-spacing: 0.05em;
+    font-size: 0.85rem;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    line-height: 1.1;
+    margin: 0 0 1.25rem;
+    max-width: 20ch;
+    letter-spacing: -0.02em;
+  }
+  .lede {
+    color: var(--text-dim);
+    max-width: 55ch;
+    font-size: 1.05rem;
+  }
+  .cta {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.75rem;
+    flex-wrap: wrap;
+  }
+  .section-title {
+    color: var(--text-dim);
+    font-weight: 500;
+    margin: 3rem 0 1.25rem;
+    font-size: 0.95rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 1rem;
+  }
+  .empty {
+    color: var(--text-dim);
+  }
+</style>

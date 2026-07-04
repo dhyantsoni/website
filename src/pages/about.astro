@@ -1,0 +1,124 @@
+---
+import Base from '../layouts/Base.astro';
+import { links, withBase } from '../lib/links';
+
+// <!-- EDIT everything in these arrays with your real details. -->
+const skills = ['TypeScript', 'Python', 'Java', 'React', 'Astro', 'Robotics / WPILib'];
+const experience = [
+  { when: '2025 — present', what: 'Placeholder role or project', where: 'Placeholder org' },
+  { when: '2024', what: 'Placeholder experience', where: 'Placeholder org' },
+];
+---
+<Base title="About — Dhyan Soni">
+  <section class="about">
+    <h1>About</h1>
+    <p class="lede">
+      I'm Dhyan Soni, a student and software &amp; robotics engineer. I care about building things
+      that are fast, thoughtful, and actually useful. <!-- EDIT -->
+    </p>
+
+    <h2 class="mono section-title">// skills</h2>
+    <ul class="skills mono">{skills.map((s) => <li>{s}</li>)}</ul>
+
+    <h2 class="mono section-title">// experience</h2>
+    <ul class="timeline">
+      {
+        experience.map((e) => (
+          <li>
+            <span class="mono when">{e.when}</span>
+            <span class="what">
+              <strong>{e.what}</strong>
+              <em>{e.where}</em>
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2 class="mono section-title">// elsewhere</h2>
+    <div class="ext mono">
+      <a href={links.github}>GitHub</a>
+      <a href={links.linkedin}>LinkedIn</a>
+      <a href={links.devpost}>Devpost</a>
+      <a href={links.email}>Email</a>
+      <a href={withBase('/resume.pdf')}>↓ Resume (PDF)</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .about {
+    max-width: 44rem;
+    margin: 3rem auto;
+  }
+  .about h1 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    margin: 0 0 1rem;
+    letter-spacing: -0.02em;
+  }
+  .lede {
+    color: var(--text-dim);
+    font-size: 1.1rem;
+  }
+  .section-title {
+    color: var(--text-dim);
+    font-weight: 500;
+    margin: 2.5rem 0 1rem;
+    font-size: 0.95rem;
+  }
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .skills li {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.85rem;
+    color: var(--accent);
+  }
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .timeline li {
+    display: flex;
+    gap: 1.25rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .timeline .when {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    white-space: nowrap;
+    min-width: 8rem;
+  }
+  .timeline .what {
+    display: flex;
+    flex-direction: column;
+  }
+  .timeline .what em {
+    color: var(--text-dim);
+    font-style: normal;
+    font-size: 0.9rem;
+  }
+  .ext {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 540px) {
+    .timeline li {
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .timeline .when {
+      min-width: 0;
+    }
+  }
+</style>

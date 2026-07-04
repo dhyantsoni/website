@@ -1,0 +1,41 @@
+---
+import { links } from '../lib/links';
+---
+<footer class="footer">
+  <div class="container footer-inner">
+    <span class="mono">© Dhyan Soni</span>
+    <nav class="socials mono">
+      <a href={links.github}>GitHub</a>
+      <a href={links.linkedin}>LinkedIn</a>
+      <a href={links.devpost}>Devpost</a>
+      <a href={links.email}>Email</a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border);
+    margin-top: 5rem;
+    padding: 2rem 0;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+  }
+  .socials {
+    display: flex;
+    gap: 1rem;
+  }
+  .socials a {
+    color: var(--text-dim);
+  }
+  .socials a:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+</style>

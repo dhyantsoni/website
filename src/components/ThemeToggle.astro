@@ -1,0 +1,39 @@
+---
+---
+<button id="theme-toggle" class="mono" aria-label="Toggle color theme" type="button">
+  <span data-icon></span>
+</button>
+
+<style>
+  #theme-toggle {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 0.5rem;
+    padding: 0.4rem 0.6rem;
+    cursor: pointer;
+    font-size: 0.8rem;
+    line-height: 1;
+    transition: border-color 0.2s ease;
+  }
+  #theme-toggle:hover {
+    border-color: var(--accent);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const root = document.documentElement;
+    function render() {
+      const el = document.querySelector('#theme-toggle [data-icon]');
+      if (el) el.textContent = root.dataset.theme === 'light' ? '☀ light' : '☾ dark';
+    }
+    render();
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('#theme-toggle')) return;
+      root.dataset.theme = root.dataset.theme === 'light' ? 'dark' : 'light';
+      localStorage.setItem('theme', root.dataset.theme);
+      render();
+    });
+  })();
+</script>

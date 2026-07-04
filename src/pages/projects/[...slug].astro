@@ -1,0 +1,95 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, description, date, tags, repo, demo } = project.data;
+const dateStr = date.toISOString().slice(0, 10);
+---
+<Base title={`${title} — Dhyan Soni`} description={description}>
+  <article class="prose">
+    <p class="mono meta">{dateStr}</p>
+    <h1>{title}</h1>
+    <p class="lede">{description}</p>
+    {tags.length > 0 && <ul class="tags mono">{tags.map((t) => <li>{t}</li>)}</ul>}
+    {
+      (repo || demo) && (
+        <div class="ext mono">
+          {repo && <a href={repo}>↗ source</a>}
+          {demo && <a href={demo}>↗ live demo</a>}
+        </div>
+      )
+    }
+    <hr />
+    <Content />
+  </article>
+</Base>
+
+<style>
+  .prose {
+    max-width: 44rem;
+    margin: 3rem auto;
+  }
+  .prose .meta {
+    color: var(--text-dim);
+    margin: 0 0 0.5rem;
+    font-size: 0.85rem;
+  }
+  .prose h1 {
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    letter-spacing: -0.02em;
+  }
+  .prose .lede {
+    color: var(--text-dim);
+    font-size: 1.1rem;
+  }
+  .tags {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+  }
+  .tags li {
+    font-size: 0.72rem;
+    color: var(--accent);
+    border: 1px solid var(--border);
+    border-radius: 0.4rem;
+    padding: 0.1rem 0.45rem;
+  }
+  .ext {
+    display: flex;
+    gap: 1.25rem;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2rem 0;
+  }
+  .prose :global(h2) {
+    margin-top: 2rem;
+  }
+  .prose :global(pre) {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    padding: 1rem;
+    border-radius: 0.6rem;
+    overflow-x: auto;
+  }
+  .prose :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+  .prose :global(img) {
+    max-width: 100%;
+    border-radius: 0.6rem;
+  }
+</style>

@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PostRow from '../../components/PostRow.astro';
+
+const isProd = import.meta.env.PROD;
+const posts = (await getCollection('blog'))
+  .filter((p) => !(isProd && p.data.draft))
+  .sort((a, b) => +b.data.date - +a.data.date);
+---
+<Base title="Blog — Dhyan Soni">
+  <h1 class="page-title">Blog</h1>
+  <p class="page-sub">Experiences, notes, and thinking out loud.</p>
+  {posts.length === 0 && <p class="mono empty">// no posts yet — run `npm run new:post`</p>}
+  {posts.map((post) => <PostRow post={post} />)}
+</Base>
+
+<style>
+  .page-title {
+    margin: 3rem 0 0.5rem;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    letter-spacing: -0.02em;
+  }
+  .page-sub {
+    color: var(--text-dim);
+    margin: 0 0 2rem;
+  }
+  .empty {
+    color: var(--text-dim);
+  }
+</style>

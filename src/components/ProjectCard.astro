@@ -1,0 +1,59 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { withBase } from '../lib/links';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, description, tags } = project.data;
+---
+<a class="card rise" href={withBase(`/projects/${project.id}`)}>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  {tags.length > 0 && <ul class="tags mono">{tags.map((t) => <li>{t}</li>)}</ul>}
+</a>
+
+<style>
+  .card {
+    display: block;
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    color: var(--text);
+    transition:
+      transform 0.2s ease,
+      border-color 0.2s ease;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    text-decoration: none;
+  }
+  .card h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.1rem;
+  }
+  .card p {
+    margin: 0 0 0.9rem;
+    color: var(--text-dim);
+    font-size: 0.95rem;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .tags li {
+    font-size: 0.72rem;
+    color: var(--accent);
+    border: 1px solid var(--border);
+    border-radius: 0.4rem;
+    padding: 0.1rem 0.45rem;
+  }
+</style>
