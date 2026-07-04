@@ -10,9 +10,11 @@ permissions:
   pages: write
   id-token: write
 
+# Never cancel an in-progress deployment — cancelling mid-publish leaves the
+# Pages environment in a failed "try again later" state. Queue instead.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
