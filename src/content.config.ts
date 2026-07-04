@@ -8,8 +8,9 @@ const projects = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     tags: z.array(z.string()).default([]),
-    repo: z.string().url().optional(),
-    demo: z.string().url().optional(),
+    // Allow an empty string (from the scaffolder template) as "unset".
+    repo: z.union([z.string().url(), z.literal('')]).optional(),
+    demo: z.union([z.string().url(), z.literal('')]).optional(),
     featured: z.boolean().default(false),
     cover: z.string().optional(),
   }),
