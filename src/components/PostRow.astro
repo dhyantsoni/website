@@ -1,0 +1,57 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { withBase } from '../lib/links';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, date } = post.data;
+const dateStr = date.toISOString().slice(0, 10);
+---
+<a class="row" href={withBase(`/blog/${post.id}`)}>
+  <time class="mono" datetime={dateStr}>{dateStr}</time>
+  <span class="row-body">
+    <strong>{title}</strong>
+    <em>{description}</em>
+  </span>
+</a>
+
+<style>
+  .row {
+    display: flex;
+    gap: 1.25rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    align-items: baseline;
+  }
+  .row:hover {
+    text-decoration: none;
+  }
+  .row:hover strong {
+    color: var(--accent);
+  }
+  .row time {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+  .row-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .row-body em {
+    color: var(--text-dim);
+    font-style: normal;
+    font-size: 0.9rem;
+  }
+  @media (max-width: 540px) {
+    .row {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+  }
+</style>
