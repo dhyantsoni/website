@@ -1,0 +1,89 @@
+---
+import { getTagGroups } from '../../lib/tags';
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import PostRow from '../../components/PostRow.astro';
+import { withBase } from '../../lib/links';
+
+export async function getStaticPaths() {
+  const groups = await getTagGroups();
+  return groups.map((g) => ({ params: { tag: g.slug }, props: { group: g } }));
+}
+
+const { group } = Astro.props;
+const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
+const parts = [];
+if (group.projects.length) parts.push(plural(group.projects.length, 'project'));
+if (group.posts.length) parts.push(plural(group.posts.length, 'post'));
+---
+<Base
+  title={`#${group.name} — Dhyan Soni`}
+  description={`Posts and projects tagged “${group.name}”.`}
+>
+  <p class="mono back"><a href={withBase('/tags')}>← all tags</a></p>
+  <h1 class="page-title"><span class="hash">#</span>{group.name}</h1>
+  <p class="page-sub">{parts.join(' · ')}</p>
+
+  {
+    group.projects.length > 0 && (
+      <section>
+        <h2 class="mono section-title">// projects</h2>
+        <div class="grid">
+          {group.projects.map((project) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    group.posts.length > 0 && (
+      <section>
+        <h2 class="mono section-title">// posts</h2>
+        {group.posts.map((post) => (
+          <PostRow post={post} />
+        ))}
+      </section>
+    )
+  }
+</Base>
+
+<style>
+  .back {
+    margin: 3rem 0 0.75rem;
+    font-size: 0.85rem;
+  }
+  .back a {
+    color: var(--text-dim);
+  }
+  .back a:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .page-title {
+    margin: 0 0 0.4rem;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    letter-spacing: -0.02em;
+  }
+  .hash {
+    color: var(--accent);
+  }
+  .page-sub {
+    color: var(--text-dim);
+    margin: 0 0 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+  .section-title {
+    color: var(--text-dim);
+    font-weight: 500;
+    margin: 2.5rem 0 1.25rem;
+    font-size: 0.95rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: 1rem;
+  }
+</style>

@@ -1,21 +1,31 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PostRow from '../../components/PostRow.astro';
+import { getPublishedPosts } from '../../lib/content';
+import { withBase } from '../../lib/links';
 
-const isProd = import.meta.env.PROD;
-const posts = (await getCollection('blog'))
-  .filter((p) => !(isProd && p.data.draft))
-  .sort((a, b) => +b.data.date - +a.data.date);
+const posts = await getPublishedPosts();
 ---
 <Base title="Blog — Dhyan Soni">
-  <h1 class="page-title">Blog</h1>
-  <p class="page-sub">Experiences, notes, and thinking out loud.</p>
+  <div class="page-head">
+    <div>
+      <h1 class="page-title">Blog</h1>
+      <p class="page-sub">Experiences, notes, and thinking out loud.</p>
+    </div>
+    <a class="browse mono" href={withBase('/tags')}>browse by tag →</a>
+  </div>
   {posts.length === 0 && <p class="mono empty">// no posts yet — run `npm run new:post`</p>}
   {posts.map((post) => <PostRow post={post} />)}
 </Base>
 
 <style>
+  .page-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
   .page-title {
     margin: 3rem 0 0.5rem;
     font-size: clamp(1.8rem, 4vw, 2.5rem);
@@ -24,6 +34,16 @@ const posts = (await getCollection('blog'))
   .page-sub {
     color: var(--text-dim);
     margin: 0 0 2rem;
+  }
+  .browse {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    margin-bottom: 2rem;
+    white-space: nowrap;
+  }
+  .browse:hover {
+    color: var(--accent);
+    text-decoration: none;
   }
   .empty {
     color: var(--text-dim);

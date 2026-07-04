@@ -1,0 +1,45 @@
+---
+import { tagSlug } from '../lib/tags';
+import { withBase } from '../lib/links';
+
+interface Props {
+  tags: string[];
+}
+
+const { tags } = Astro.props;
+---
+{
+  tags.length > 0 && (
+    <ul class="tags mono">
+      {tags.map((t) => (
+        <li>
+          <a href={withBase(`/tags/${tagSlug(t)}`)}>{t}</a>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .tags {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+  }
+  .tags a {
+    display: inline-block;
+    font-size: 0.72rem;
+    color: var(--accent);
+    border: 1px solid var(--border);
+    border-radius: 0.4rem;
+    padding: 0.1rem 0.45rem;
+    transition: border-color 0.15s ease;
+  }
+  .tags a:hover {
+    border-color: var(--accent);
+    text-decoration: none;
+  }
+</style>

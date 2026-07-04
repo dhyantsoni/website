@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import TagList from '../../components/TagList.astro';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -17,7 +18,7 @@ const dateStr = date.toISOString().slice(0, 10);
     <p class="mono meta">{dateStr}</p>
     <h1>{title}</h1>
     <p class="lede">{description}</p>
-    {tags.length > 0 && <ul class="tags mono">{tags.map((t) => <li>{t}</li>)}</ul>}
+    <TagList tags={tags} />
     {
       (repo || demo) && (
         <div class="ext mono">
@@ -49,21 +50,6 @@ const dateStr = date.toISOString().slice(0, 10);
   .prose .lede {
     color: var(--text-dim);
     font-size: 1.1rem;
-  }
-  .tags {
-    display: flex;
-    gap: 0.4rem;
-    flex-wrap: wrap;
-    list-style: none;
-    padding: 0;
-    margin: 1rem 0;
-  }
-  .tags li {
-    font-size: 0.72rem;
-    color: var(--accent);
-    border: 1px solid var(--border);
-    border-radius: 0.4rem;
-    padding: 0.1rem 0.45rem;
   }
   .ext {
     display: flex;

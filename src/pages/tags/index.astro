@@ -1,0 +1,76 @@
+---
+import { getTagGroups, tagCount } from '../../lib/tags';
+import Base from '../../layouts/Base.astro';
+import { withBase } from '../../lib/links';
+
+const groups = await getTagGroups();
+---
+<Base title="Tags — Dhyan Soni" description="Browse posts and projects by tag.">
+  <h1 class="page-title">Tags</h1>
+  <p class="page-sub">Browse everything by topic.</p>
+  {groups.length === 0 && <p class="mono empty">// no tags yet</p>}
+  <ul class="cloud mono">
+    {
+      groups.map((g) => (
+        <li>
+          <a href={withBase(`/tags/${g.slug}`)}>
+            <span class="hash">#</span>
+            {g.name}
+            <span class="count">{tagCount(g)}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Base>
+
+<style>
+  .page-title {
+    margin: 3rem 0 0.5rem;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    letter-spacing: -0.02em;
+  }
+  .page-sub {
+    color: var(--text-dim);
+    margin: 0 0 2rem;
+  }
+  .empty {
+    color: var(--text-dim);
+  }
+  .cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .cloud a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text);
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 0.6rem;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.9rem;
+    transition:
+      border-color 0.15s ease,
+      transform 0.15s ease;
+  }
+  .cloud a:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+  .hash {
+    color: var(--accent);
+  }
+  .count {
+    color: var(--text-dim);
+    font-size: 0.72rem;
+    border-left: 1px solid var(--border);
+    padding-left: 0.4rem;
+  }
+</style>
