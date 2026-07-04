@@ -1,5 +1,5 @@
 ---
-import { links } from '../lib/links';
+import { links, withBase } from '../lib/links';
 ---
 <footer class="footer">
   <div class="container footer-inner">
@@ -9,6 +9,7 @@ import { links } from '../lib/links';
       <a href={links.linkedin}>LinkedIn</a>
       <a href={links.devpost}>Devpost</a>
       <a href={links.email}>Email</a>
+      <a href={withBase('/rss.xml')}>RSS</a>
     </nav>
   </div>
 </footer>
