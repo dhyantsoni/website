@@ -4,24 +4,39 @@
 :root {
   --font-sans: 'Inter Variable', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
-  --maxw: 68rem;
+  --maxw: 72rem;
 
-  /* dark (default) */
-  --bg: #0b0d10;
-  --bg-elev: #14171c;
-  --text: #e8eaed;
-  --text-dim: #9aa2ad;
-  --accent: #4fd1c5;
-  --border: #232830;
+  /* light (default) */
+  --bg: #f6f3ed;
+  --bg-elev: #ffffff;
+  --bg-soft: #f0ece4;
+  --text: #161a20;
+  --text-dim: #5d6672;
+  --accent: #175cff;
+  --border: #dbd6cd;
+  --shadow: 0 18px 50px rgb(17 24 39 / 0.08);
 }
 
 :root[data-theme='light'] {
-  --bg: #fbfbf9;
+  --bg: #f6f3ed;
   --bg-elev: #ffffff;
-  --text: #17191c;
-  --text-dim: #565d67;
-  --accent: #0f9488;
-  --border: #e4e4dd;
+  --bg-soft: #f0ece4;
+  --text: #161a20;
+  --text-dim: #5d6672;
+  --accent: #175cff;
+  --border: #dbd6cd;
+  --shadow: 0 18px 50px rgb(17 24 39 / 0.08);
+}
+
+:root[data-theme='dark'] {
+  --bg: #0c1016;
+  --bg-elev: #121720;
+  --bg-soft: #1a202b;
+  --text: #edf0f5;
+  --text-dim: #a2adba;
+  --accent: #7aa2ff;
+  --border: #232b38;
+  --shadow: 0 20px 60px rgb(0 0 0 / 0.35);
 }
 
 * {
@@ -34,7 +49,10 @@ html {
 
 body {
   margin: 0;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at top left, color-mix(in srgb, var(--accent) 10%, transparent), transparent 28%),
+    radial-gradient(circle at top right, color-mix(in srgb, var(--accent) 8%, transparent), transparent 26%),
+    var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
   line-height: 1.6;
@@ -54,6 +72,10 @@ a:hover {
   max-width: var(--maxw);
   margin: 0 auto;
   padding: 0 1.25rem;
+}
+
+section {
+  scroll-margin-top: 5.5rem;
 }
 
 .mono {

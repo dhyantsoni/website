@@ -3,7 +3,7 @@
 Dhyan Soni's personal site — projects, blog, and resume. Built with
 [Astro](https://astro.build) and deployed to GitHub Pages.
 
-Live: https://dhyantsoni.github.io/website
+Live: https://dhyantsoni.com
 
 ## Develop
 
@@ -52,9 +52,6 @@ featured: false                               # true = show on the home page
 ## Deploy
 
 Push to `master`. The GitHub Actions workflow builds and deploys automatically.
-
-**One-time GitHub setup:** repo **Settings → Pages → Build and deployment →
-Source = GitHub Actions**.
 
 ## Personalize
 

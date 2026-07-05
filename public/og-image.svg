@@ -1,0 +1,13 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#F6F3ED"/>
+  <circle cx="1040" cy="120" r="160" fill="#DCE7FF"/>
+  <circle cx="1140" cy="540" r="200" fill="#E8F2FF"/>
+  <rect x="72" y="72" width="1056" height="486" rx="36" fill="#FFFFFF" stroke="#DBD6CD"/>
+  <text x="112" y="190" fill="#161A20" font-family="Inter, Arial, sans-serif" font-size="54" font-weight="700">Dhyan Soni</text>
+  <text x="112" y="254" fill="#175CFF" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="600" letter-spacing="2">STUDENT • CYBERSECURITY • ROBOTICS • AI/ML</text>
+  <text x="112" y="330" fill="#5D6672" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="400">A clean portfolio for a practical technical builder.</text>
+  <text x="112" y="386" fill="#161A20" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500">Cybersecurity, robotics autonomy, machine learning, and teaching.</text>
+  <rect x="112" y="438" width="200" height="54" rx="27" fill="#161A20"/>
+  <text x="158" y="473" fill="#F6F3ED" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="600">Portfolio</text>
+  <text x="1030" y="498" text-anchor="end" fill="#A2ADBA" font-family="JetBrains Mono, monospace" font-size="18">dhyantsoni.github.io/website</text>
+</svg>

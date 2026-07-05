@@ -4,7 +4,7 @@ description: "A real, editable example so you can see how a project entry looks 
 date: 2026-07-03
 tags: ["Astro", "TypeScript", "Web"]
 repo: "https://github.com/dhyantsoni/website"
-demo: "https://dhyantsoni.github.io/website"
+demo: "https://dhyantsoni.com"
 featured: true
 ---
 

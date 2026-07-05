@@ -11,7 +11,7 @@
 ## Global Constraints
 
 - **No mention of Nixo** anywhere in code, content, comments, or commit messages.
-- Deploy target GitHub Pages under repo `website` → base path `/website`; site URL `https://dhyantsoni.github.io`. Both live in `astro.config.mjs` and must be easy to change for a custom domain later.
+- Deploy target custom domain `https://dhyantsoni.com`; base path `/`. Both live in `astro.config.mjs` and must be easy to change later.
 - All motion gated behind `prefers-reduced-motion`.
 - Dark-first theme with working light mode; toggle persists to `localStorage` and respects `prefers-color-scheme`.
 - Links to surface: GitHub (`https://github.com/dhyantsoni`), Email (placeholder), LinkedIn (placeholder), Devpost (placeholder). Placeholders marked `<!-- EDIT -->` / obvious `PLACEHOLDER` values.
@@ -73,7 +73,7 @@ import { defineConfig } from 'astro/config';
 // GitHub Pages: project site served at /<repo>. For a custom domain later,
 // set site to the domain and base to '/'.
 export default defineConfig({
-  site: 'https://dhyantsoni.github.io',
+  site: 'https://dhyantsoni.com',
   base: '/website',
 });
 ```
@@ -1024,7 +1024,7 @@ description: "A real, editable example so you can see how a project entry looks 
 date: 2026-07-03
 tags: ["Astro", "TypeScript", "Web"]
 repo: "https://github.com/dhyantsoni/website"
-demo: "https://dhyantsoni.github.io/website"
+demo: "https://dhyantsoni.com"
 featured: true
 ---
 
@@ -1145,7 +1145,7 @@ jobs:
 Dhyan Soni's personal site — projects, blog, and resume. Built with
 [Astro](https://astro.build) and deployed to GitHub Pages.
 
-Live: https://dhyantsoni.github.io/website
+Live: https://dhyantsoni.com
 
 ## Develop
 
@@ -1230,7 +1230,7 @@ git push origin master
 
 In GitHub: **Settings → Pages → Source → GitHub Actions**. Then confirm the
 Actions run succeeds and the site is live at
-`https://dhyantsoni.github.io/website`.
+`https://dhyantsoni.com`.
 
 ---
 

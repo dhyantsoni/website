@@ -3,7 +3,7 @@
 **Date:** 2026-07-03
 **Owner:** Dhyan Soni (`dhyantsoni`)
 **Repo:** https://github.com/dhyantsoni/website
-**Deploy target:** GitHub Pages (`dhyantsoni.github.io/website` initially; custom domain later)
+**Deploy target:** Custom domain (`https://dhyantsoni.com`)
 
 ## Goal
 

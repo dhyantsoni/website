@@ -1,8 +1,6 @@
 export const links = {
   github: 'https://github.com/dhyantsoni',
-  email: 'mailto:PLACEHOLDER@example.com', // <-- EDIT
-  linkedin: 'https://www.linkedin.com/in/PLACEHOLDER', // <-- EDIT
-  devpost: 'https://devpost.com/PLACEHOLDER', // <-- EDIT
+  email: 'mailto:dhyantsoni@gmail.com',
 };
 
 /** Prefix a site-absolute path with the configured base path. */

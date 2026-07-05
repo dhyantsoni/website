@@ -1,102 +1,637 @@
 ---
-import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import PostRow from '../components/PostRow.astro';
 import { withBase, links } from '../lib/links';
+import { portfolio } from '../lib/portfolio';
 
-const isProd = import.meta.env.PROD;
+const { profile, highlights, skills, workHighlights, experience, education, achievements } = portfolio;
 
-const projects = (await getCollection('projects')).sort((a, b) => +b.data.date - +a.data.date);
-const featured = projects.filter((p) => p.data.featured).slice(0, 3);
-const featuredList = featured.length ? featured : projects.slice(0, 3);
-
-const posts = (await getCollection('blog'))
-  .filter((p) => !(isProd && p.data.draft))
-  .sort((a, b) => +b.data.date - +a.data.date)
-  .slice(0, 4);
+const contactDetails = [
+  { label: 'Email', value: 'dhyantsoni@gmail.com', href: links.email },
+  { label: 'Phone', value: '858-230-0305' },
+  { label: 'Location', value: profile.location },
+  { label: 'GitHub', value: 'github.com/dhyantsoni', href: links.github },
+];
 ---
-<Base title="Dhyan Soni">
-  <section class="hero rise">
-    <p class="mono kicker">student &amp; engineer</p>
-    <h1>I build things and write about how they work.</h1>
-    <p class="lede">
-      I'm Dhyan Soni — a student and software &amp; robotics engineer. I like turning hard problems
-      into things people can actually use. Here are my projects and a blog about what I'm learning
-      along the way. <!-- EDIT -->
-    </p>
-    <div class="cta mono">
-      <a href={withBase('/projects')}>→ projects</a>
-      <a href={withBase('/blog')}>→ blog</a>
-      <a href={links.github}>→ github</a>
+<Base
+  title={`${profile.name} — ${profile.title}`}
+  description={`Portfolio of ${profile.name}, a ${profile.title.toLowerCase()} based in ${profile.location}. Explore skills, work highlights, education, achievements, and contact information.`}
+>
+  <section id="home" class="hero rise">
+    <div class="hero-copy">
+      <p class="eyebrow mono">Student • Cybersecurity • Robotics • AI/ML</p>
+      <h1>Hi, I’m {profile.name}.</h1>
+      <p class="lede">{profile.summary}</p>
+      <div class="cta">
+        <a class="button primary" href="#projects">View work</a>
+        <a class="button" href={withBase('/resume.pdf')}>Download resume</a>
+        <a class="button ghost" href="#contact">Contact me</a>
+      </div>
+
+      <dl class="meta-grid">
+        {highlights.map((item) => (
+          <div class="meta-card">
+            <dt class="mono">{item.label}</dt>
+            <dd>
+              <strong>{item.value}</strong>
+              <span>{item.detail}</span>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+
+    <div class="hero-panel">
+      <div class="avatar-card">
+        <div class="avatar">DS</div>
+        <p class="mono avatar-note">No image uploaded. This keeps the site clean and professional.</p>
+      </div>
+      <div class="focus-card">
+        <p class="mono focus-kicker">Currently focused on</p>
+        <ul>
+          <li>Cybersecurity and blue-team defense</li>
+          <li>Robotics autonomy and vision systems</li>
+          <li>Applied machine learning and systems thinking</li>
+        </ul>
+      </div>
     </div>
   </section>
 
-  <section>
-    <h2 class="mono section-title">// featured projects</h2>
-    {
-      featuredList.length === 0 ? (
-        <p class="mono empty">// no projects yet — run `npm run new:project`</p>
-      ) : (
-        <div class="grid">
-          {featuredList.map((project) => <ProjectCard project={project} />)}
+  <section id="about" class="section-block">
+    <div class="section-head">
+      <p class="eyebrow mono">About</p>
+      <h2>Practical, curious, and hands-on.</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-copy card">
+        <p>
+          I’m a high school student who likes turning hard technical problems into simple,
+          reliable systems. My work spans cybersecurity, robotics, and machine learning, and I
+          especially enjoy situations where I can learn fast, teach others, and ship something
+          concrete.
+        </p>
+        <p>
+          I’ve spent a lot of time on blue-team defense, Linux hardening, robot software, and
+          applied ML. I want to keep building projects that are useful, trustworthy, and easy to
+          understand.
+        </p>
+      </div>
+      <div class="about-points">
+        <div class="mini-card">
+          <span class="mono">Education</span>
+          <strong>High school + ML coursework</strong>
+          <p>Del Norte High School and UC San Diego Futures machine learning studies.</p>
         </div>
-      )
-    }
+        <div class="mini-card">
+          <span class="mono">Leadership</span>
+          <strong>Teaching + mentoring</strong>
+          <p>Led curriculum, coached peers, and supported students in robotics and coding.</p>
+        </div>
+        <div class="mini-card">
+          <span class="mono">Direction</span>
+          <strong>Technical growth</strong>
+          <p>Focused on cybersecurity, robotics autonomy, and real-world engineering practice.</p>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section>
-    <h2 class="mono section-title">// latest writing</h2>
-    {
-      posts.length === 0 ? (
-        <p class="mono empty">// no posts yet — run `npm run new:post`</p>
-      ) : (
-        posts.map((post) => <PostRow post={post} />)
-      )
-    }
+  <section id="skills" class="section-block">
+    <div class="section-head">
+      <p class="eyebrow mono">Skills</p>
+      <h2>A clean view of what I work with.</h2>
+    </div>
+    <div class="skills-grid">
+      {skills.map((group) => (
+        <article class="skill-card card">
+          <h3>{group.category}</h3>
+          <div class="chips">
+            {group.items.map((item) => (
+              <span>{item}</span>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="projects" class="section-block">
+    <div class="section-head">
+      <p class="eyebrow mono">Work highlights</p>
+      <h2>What I’ve been building and contributing to.</h2>
+    </div>
+    <div class="work-grid">
+      {workHighlights.map((item) => (
+        <article class="card work-card">
+          <h3>{item.title}</h3>
+          <p>{item.summary}</p>
+          <ul class="chips compact">
+            {item.tags.map((tag) => (
+              <li>{tag}</li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="experience" class="section-block">
+    <div class="section-head">
+      <p class="eyebrow mono">Experience</p>
+      <h2>Leadership, competition, and hands-on engineering.</h2>
+    </div>
+    <div class="timeline">
+      {experience.map((entry) => (
+        <article class="timeline-item card">
+          <div class="timeline-top">
+            <div>
+              <h3>{entry.title}</h3>
+              <p class="mono period">{entry.period}</p>
+            </div>
+          </div>
+          <ul>
+            {entry.bullets.map((bullet) => (
+              <li>{bullet}</li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="education" class="section-block">
+    <div class="section-head">
+      <p class="eyebrow mono">Education</p>
+      <h2>Formal study plus applied technical learning.</h2>
+    </div>
+    <div class="edu-grid">
+      {education.map((item) => (
+        <article class="card edu-card">
+          <h3>{item.school}</h3>
+          <p class="mono period">{item.period}</p>
+          <ul>
+            {item.details.map((detail) => (
+              <li>{detail}</li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section id="achievements" class="section-block">
+    <div class="section-head">
+      <p class="eyebrow mono">Certifications / Achievements</p>
+      <h2>Recognition that reflects the work.</h2>
+    </div>
+    <div class="achievement-grid">
+      {achievements.map((item) => (
+        <span class="achievement-chip">{item}</span>
+      ))}
+    </div>
+  </section>
+
+  <section id="resume" class="section-block">
+    <div class="resume-card card">
+      <div>
+        <p class="eyebrow mono">Resume</p>
+        <h2>Want the full resume?</h2>
+        <p>
+          Download the resume to see the complete education, skills, experience, and achievements
+          in one place.
+        </p>
+      </div>
+      <a class="button primary" href={withBase('/resume.pdf')}>Download resume</a>
+    </div>
+  </section>
+
+  <section id="contact" class="section-block contact-block">
+    <div class="section-head">
+      <p class="eyebrow mono">Contact</p>
+      <h2>Open to opportunities, collaborations, and conversations.</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="card contact-card">
+        <p class="contact-intro">
+          Have an internship, project, competition, or collaboration in mind? Reach out and I’ll
+          get back as soon as I can.
+        </p>
+        <ul class="contact-list">
+          {contactDetails.map((item) => (
+            <li>
+              <span class="mono">{item.label}</span>
+              {item.href ? <a href={item.href}>{item.value}</a> : <strong>{item.value}</strong>}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <form class="card contact-form" data-contact-form>
+        <label>
+          <span class="mono">Name</span>
+          <input name="name" type="text" autocomplete="name" required />
+        </label>
+        <label>
+          <span class="mono">Email</span>
+          <input name="email" type="email" autocomplete="email" required />
+        </label>
+        <label>
+          <span class="mono">Message</span>
+          <textarea name="message" rows="5" required placeholder="Tell me what you have in mind."></textarea>
+        </label>
+        <button class="button primary" type="submit">Send message</button>
+        <p class="form-note">This opens your email app with the message prefilled.</p>
+      </form>
+    </div>
   </section>
 </Base>
 
+<script is:inline>
+  (function () {
+    const form = document.querySelector('[data-contact-form]');
+    if (!form) return;
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      const data = new FormData(form);
+      const name = String(data.get('name') || '').trim();
+      const email = String(data.get('email') || '').trim();
+      const message = String(data.get('message') || '').trim();
+      const subject = encodeURIComponent(`Portfolio inquiry from ${name || 'a visitor'}`);
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+      window.location.href = `mailto:dhyantsoni@gmail.com?subject=${subject}&body=${body}`;
+    });
+  })();
+</script>
+
 <style>
   .hero {
-    padding: 4rem 0 3rem;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 2rem;
+    padding: 4.5rem 0 3rem;
+    align-items: start;
   }
-  .kicker {
-    color: var(--accent);
+  .eyebrow {
     margin: 0 0 0.75rem;
-    letter-spacing: 0.05em;
-    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    color: var(--accent);
   }
   .hero h1 {
-    font-size: clamp(2rem, 5vw, 3.25rem);
-    line-height: 1.1;
-    margin: 0 0 1.25rem;
-    max-width: 20ch;
-    letter-spacing: -0.02em;
+    margin: 0 0 1rem;
+    font-size: clamp(2.4rem, 5.8vw, 4.7rem);
+    line-height: 0.98;
+    letter-spacing: -0.05em;
+    max-width: 12ch;
   }
   .lede {
+    margin: 0;
+    max-width: 60ch;
     color: var(--text-dim);
-    max-width: 55ch;
-    font-size: 1.05rem;
+    font-size: 1.06rem;
   }
   .cta {
     display: flex;
-    gap: 1.5rem;
-    margin-top: 1.75rem;
     flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 1.5rem;
   }
-  .section-title {
-    color: var(--text-dim);
-    font-weight: 500;
-    margin: 3rem 0 1.25rem;
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.8rem;
+    padding: 0.7rem 1rem;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--bg-elev);
+    color: var(--text);
+    font-weight: 600;
     font-size: 0.95rem;
+    box-shadow: none;
   }
-  .grid {
+  .button:hover {
+    text-decoration: none;
+    border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+  }
+  .button.primary {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+  }
+  :root[data-theme='dark'] .button.primary {
+    background: var(--accent);
+    color: #09111f;
+    border-color: var(--accent);
+  }
+  .button.ghost {
+    background: transparent;
+  }
+  .meta-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+    margin: 1.75rem 0 0;
+  }
+  .meta-card,
+  .card {
+    background: color-mix(in srgb, var(--bg-elev) 96%, transparent);
+    border: 1px solid var(--border);
+    border-radius: 1.15rem;
+    box-shadow: var(--shadow);
+  }
+  .meta-card {
+    padding: 1rem;
+  }
+  .meta-card dt {
+    color: var(--text-dim);
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .meta-card dd {
+    margin: 0.6rem 0 0;
+    display: grid;
+    gap: 0.25rem;
+  }
+  .meta-card strong {
+    font-size: 1.05rem;
+  }
+  .meta-card span {
+    color: var(--text-dim);
+    font-size: 0.92rem;
+  }
+  .hero-panel {
+    display: grid;
     gap: 1rem;
   }
-  .empty {
+  .avatar-card,
+  .focus-card {
+    padding: 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--bg-elev) 96%, transparent), color-mix(in srgb, var(--bg-soft) 45%, var(--bg-elev)));
+    box-shadow: var(--shadow);
+  }
+  .avatar {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 1.25rem;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(circle at top, color-mix(in srgb, var(--accent) 18%, transparent), transparent 48%),
+      linear-gradient(180deg, color-mix(in srgb, var(--accent) 16%, var(--bg-elev)), var(--bg-elev));
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: clamp(3rem, 7vw, 5rem);
+    font-weight: 700;
+    letter-spacing: -0.08em;
+  }
+  .avatar-note {
+    margin: 0.85rem 0 0;
     color: var(--text-dim);
+    font-size: 0.82rem;
+  }
+  .focus-kicker {
+    margin: 0 0 0.65rem;
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .focus-card ul,
+  .timeline-item ul,
+  .edu-card ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    color: var(--text-dim);
+  }
+  .focus-card li + li,
+  .timeline-item li + li,
+  .edu-card li + li {
+    margin-top: 0.45rem;
+  }
+  .section-block {
+    margin-top: 4.5rem;
+  }
+  .section-head {
+    display: grid;
+    gap: 0.25rem;
+    margin-bottom: 1.25rem;
+  }
+  .section-head h2 {
+    margin: 0;
+    font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+  .about-grid,
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 1rem;
+  }
+  .about-copy,
+  .contact-card,
+  .contact-form,
+  .resume-card {
+    padding: 1.25rem;
+  }
+  .about-copy p {
+    margin: 0;
+    color: var(--text-dim);
+  }
+  .about-copy p + p {
+    margin-top: 1rem;
+  }
+  .about-points,
+  .skills-grid,
+  .work-grid,
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .mini-card,
+  .skill-card,
+  .work-card,
+  .edu-card,
+  .timeline-item {
+    padding: 1.1rem;
+  }
+  .mini-card span,
+  .skill-card h3,
+  .work-card h3,
+  .edu-card h3,
+  .timeline-item h3 {
+    margin: 0 0 0.55rem;
+  }
+  .mini-card strong,
+  .skill-card h3,
+  .work-card h3,
+  .edu-card h3,
+  .timeline-item h3 {
+    font-size: 1rem;
+  }
+  .mini-card p,
+  .skill-card p,
+  .work-card p,
+  .edu-card p,
+  .timeline-item p,
+  .resume-card p,
+  .contact-intro {
+    margin: 0;
+    color: var(--text-dim);
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .chips span,
+  .achievement-chip {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    padding: 0.42rem 0.7rem;
+    background: color-mix(in srgb, var(--bg-elev) 92%, transparent);
+    color: var(--text);
+    font-size: 0.84rem;
+  }
+  .chips.compact {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+  }
+  .timeline {
+    display: grid;
+    gap: 1rem;
+  }
+  .timeline-item .period {
+    color: var(--text-dim);
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+  }
+  .achievement-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+  .resume-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  .contact-grid {
+    align-items: start;
+  }
+  .contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    display: grid;
+    gap: 0.8rem;
+  }
+  .contact-list li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .contact-list span {
+    color: var(--text-dim);
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+  .contact-list strong,
+  .contact-list a {
+    color: var(--text);
+    text-align: right;
+  }
+  .contact-form {
+    display: grid;
+    gap: 0.9rem;
+  }
+  .contact-form label {
+    display: grid;
+    gap: 0.45rem;
+  }
+  .contact-form span {
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 0.9rem;
+    background: var(--bg-elev);
+    color: var(--text);
+    padding: 0.85rem 0.95rem;
+    font: inherit;
+  }
+  .contact-form textarea {
+    resize: vertical;
+    min-height: 9rem;
+  }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder {
+    color: var(--text-dim);
+  }
+  .form-note {
+    margin: 0;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 980px) {
+    .hero,
+    .about-grid,
+    .contact-grid,
+    .resume-card {
+      grid-template-columns: 1fr;
+      display: grid;
+    }
+    .about-points,
+    .skills-grid,
+    .work-grid,
+    .edu-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .meta-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .hero {
+      padding-top: 3.25rem;
+    }
+    .about-points,
+    .skills-grid,
+    .work-grid,
+    .edu-grid {
+      grid-template-columns: 1fr;
+    }
+    .resume-card {
+      align-items: start;
+    }
+    .contact-list li {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .contact-list strong,
+    .contact-list a {
+      text-align: left;
+    }
   }
 </style>
